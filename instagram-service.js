@@ -7,12 +7,12 @@ angular.module('instagram')
         var url = 'https://api.instagram.com/v1/tags/' + hash + '/media/recent';
         var clientId = CLIENTID GOES HERE;
         var config = {
-					'params': {
-						'client_id': clientId,
-						'count': count,
-						'callback': 'JSON_CALLBACK'
-					}
-				};
+          'params': {
+            'client_id': clientId,
+            'count': count,
+            'callback': 'JSON_CALLBACK'
+          }
+        };
         $http.jsonp(url, config)
           .success(function(data) {
             delay.resolve(data);
@@ -29,7 +29,7 @@ angular.module('instagram')
         var hash = attrs.hash || 'coffee';
         var count = attrs.count || 10;
         instagramService.get(hash, count).then(function(data) {
-          $scope.list = data.data; debugger;
+          $scope.list = data.data; 
         });
       }
     }
