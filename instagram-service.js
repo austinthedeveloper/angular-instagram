@@ -2,12 +2,10 @@ angular.module('instagram', []);
 angular.module('instagram')
   .factory('instagramService', function($http, $q) {
     return {
-      get: function() {
+      get: function(hash, count) {
         var delay = $q.defer();
-        var queryString = '';
-        var url = 'https://api.instagram.com/v1/tags/coffee/media/recent';
+        var url = 'https://api.instagram.com/v1/tags/' + hash + '/media/recent';
         var clientId = CLIENTID GOES HERE;
-        var count = 1;
         var config = {
 					'params': {
 						'client_id': clientId,
@@ -26,10 +24,12 @@ angular.module('instagram')
   })
   .directive('instagram', function(instagramService) {
     return {
-      template: '<p ng-repeat="item in list">{{item}}</p>',
+      template: '<p ng-repeat="item in list"><img ng-src="{{item.images.standard_resolution.url}}" alt="{{item.caption.text}}"></p>',
       link: function($scope, elem, attrs) {
-        instagramService.get().then(function(data) {
-          $scope.list = data;
+        var hash = attrs.hash || 'coffee';
+        var count = attrs.count || 10;
+        instagramService.get(hash, count).then(function(data) {
+          $scope.list = data.data; debugger;
         });
       }
     }
